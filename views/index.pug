@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  
+  .jumbotron
+    div.home-page-img
+      h1.div-header Witaj na stronie Systemu Obsługi Kursów Poprawkowych Pwr
+    div.div-flex  
+      div.div-button(onClick="joinApplication();") 
+        h2 Dopisz się do wniosku
+        p Znajdź wniosek o kurs poprawkowy na który chciałbyś uczęszczac i dołącz do niego. W ten sposób uzyskujesz większe prawdopodobieństwo, że kurs ten zostanie uruchomiony
+      
+      div.div-button(onClick="createNewApplication();") 
+        h2 Utwórz nowy wniosek
+        p Utwórz wniosek o uruchomienie nowego kursu poprawkowego
+        
+      div.div-button(onClick="joinApplication();") 
+        h2 Znajdź zamiennik kursu
+        p Kurs, który chcesz poprawiac został usunięty? Znajdź jego zamiennik! Wyszukuj wśród wszystkich kursów na Politechnice Wrocławskiej
+        
+      div.div-button(onClick="joinApplication();") 
+        h2 Zdobądź niezbędne zgody 
+        p Uzyskaj zgody nauczycieli akademickich, niezbedne do uruchomienia kursu poprawkowego

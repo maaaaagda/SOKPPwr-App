@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  br
+  h1= titl
+  
+  .my-jumbotron
+    table.table.table-bordered.table-hover.join-table
+      thead
+        tr
+          th Kod Przedmiotu
+          th Nazwa Kursu
+          th Rodzaj Kursu
+          th Rok akademicki
+          th Semestr
+          th Liczba członków
+          th Dopisz się do wniosku
+      tbody
+          if (rows)
+           each item in rows
+            tr
+              td= item.KodPrzedmiotu
+              td= item.NazwaKursu
+              td= item.nazwaRodzajuKursu
+              td= item.Rocznik
+              td= item.nazwaSemestru
+              td.text-center= 35
+              td
+                button.btn.btn-outline-primary(onClick="joinApplicationId("+item.ID+");")  Dopisz mnie

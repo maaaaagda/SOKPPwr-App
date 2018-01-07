@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    script(src='/tether/tether.min.js')
+    script(src='/jquery/jquery.min.js')
+    script(src='/js/bootstrap.min.js')
+    script(src='/javascripts/all.js')
+    
+  header
+    .navbar.navbar-toggleable-md.navbar-light.bg-faded
+      img(src="https://upload.wikimedia.org/wikipedia/en/f/f4/Wroclaw_University_of_Technology_logo.jpg" width="60px" height="60px").img.sign
+      button(type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" ).navbar-toggler.navbar-toggler-right
+        span.navbar-toggler-icon
+      a(href="/").navbar-brand SOKPPwr
+      div(id="navbarNavAltMarkup").collapse.navbar-collapse
+        div.navbar-nav
+          div(href="#").nav-item.nav-link Moje sprawy
+            span.sr-only (current)
+          div(href="#").nav-item.nav-link Aktualności
+      div.nav-item.float-right.d-inline
+        img(src="http://pluspng.com/img-png/bell-png-open-2000.png"  width="40px" height="40px")
+      div.float-right.d-inline
+        img(src="https://www.picpng.com/image/view/40090" width="50px" height="50px").img
+      div.sign.float-right.d-inline
+        h6 Anna Nowak
+      div.sign.float-right.d-inline
+        img(src="https://cdn.iconscout.com/public/images/icon/premium/png-512/account-avatar-login-silhouette-user-person-man-profile-people-woman-male-3de8d969ed1c7f3a-512x512.png"  width="50px" height="50px").img
+  body
+    block content
+  hr
+  footer.footer
+    .container
+      p.text-muted.cursive Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vitae velit neque. Ut rutrum sapien mi, eu iaculis nibh pharetra ac. Cras lobortis ipsum purus, sit amet dignissim turpis congue a. Aenean venenatis auctor augue, a hendrerit libero interdum ac. Nullam semper justo dolor, ut suscipit massa venenatis vitae. Suspendisse potenti. Aliquam tempus consequat nunc sit amet tempus. Pellentesque non vestibulum nisl. Ut dolor urna, pulvinar quis euismod in, mollis et magna. Morbi eu lacus quis orci ornare vulputate sit amet quis massa.Proin auctor tempus tincidunt. Aliquam diam ex, facilisis sed mi sed, porta congue velit. Sed placerat, lacus eget volutpat porttitor, nisl arcu posuere massa, tempus egestas mi tortor vitae ipsum. Morbi tristique suscipit justo ut porttitor. Phasellus eu orci dignissim, suscipit nibh a, pellentesque velit. Donec molestie, metus id sollicitudin finibus, ex nisl facilisis ante, in volutpat nisi velit et tortor. Duis sodales enim sit amet nisl dignissim viverra. 

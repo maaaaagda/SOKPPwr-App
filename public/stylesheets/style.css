@@ -1,0 +1,77 @@
+body {
+  padding: 30px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+img {
+  margin: 5px;
+  display: inline-block;
+}
+
+/* index */
+
+.sign {
+  margin: 10px;
+}
+
+.cursive {
+  font-style: italic;
+}
+
+.div-button {
+  width: 250px;
+  margin: 20px;
+  padding: 20px;
+  min-height: 300px;
+  background-color: rgba(160, 196, 226, 0.79);
+  border-radius: 10%;
+  display: inline-table;
+}
+.div-button:hover {
+  background-color:rgba(197, 214, 227, 0.79);
+  cursor: pointer;
+}
+.div-flex {
+  display: flex;
+  justify-content: center;
+}
+
+.home-page-img {
+  padding: 20px;
+  background-image: url("../images/home_img.jpg");
+  background-size: 100% 300px;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 300px;
+}
+
+.div-header {
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+}
+
+/* join_application */
+
+.join-table {
+  background-color: white;
+  text-align: center;
+}
+
+@media (min-width: 576px){
+  .my-jumbotron {
+    padding: 4rem 2rem;
+  }
+}
+
+.my-jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: rgba(235, 237, 238, 0.1);
+    border-color: black;
+    border-radius: .3rem;
+}
