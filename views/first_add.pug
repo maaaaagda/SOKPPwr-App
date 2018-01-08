@@ -1,34 +1,41 @@
 extends layout
 
 block content
-  .main.container.add_margin
-    .row
-      .col-md-6.col-md-offset-3
-        h1.display-4.m-b-2 Sign Up
-
-        // register form
-        form(method='POST' action='/first_add')
-          div.form-group
-            label(for='courseCode') Kod przedmiotu:
-            input#name.form-control(type='text', name='curseCode')
-          div.form-group
-            label(for='courseName') Nazwa kursu:
-            input#name.form-control(type='text', name='curseName')
-          div.form-group
-            label(for='courseECTS') Punkty ECTS:
-            input#name.form-control(type='text', name='curseECTS')
-          div.form-group
-            label(for='courseKind') Rodzaj kursu:
-            select.form-control(id="year" name="")
-              option(value='1') 1
-              option(value='2') 2
-              option(value='3') 3
-          div.form-group
-            label(for='courseYear') Rok akademicki:
-            input#name.form-control(type='text', name='courseYear')
-          div.form-group
-            label(for='courseSemester') Semestr:
-            select.form-control(id="courseSemester" name="courseSemester")
-              option(value='1') Zimowy
-              option(value='2') Letni
-          button.btn.btn-primary(type='submit') Add product
+  .main.container
+    .row.vertical-align
+      .col-md-8
+        h1.display-4.m-b-2 Dopisz się do wniosku 
+        
+        .my-jumbotron
+          form(method='POST' action='/first_add') 
+            div.form-group
+              label(for='courseCode') Kod przedmiotu:
+              input#name.form-control(type='text', name='curseCode')
+            div.form-group
+              label(for='courseName') Nazwa kursu:
+              input#name.form-control(type='text', name='curseName')
+            div.form-group
+              label(for='courseECTS') Punkty ECTS:
+              input#name.form-control(type='text', name='curseECTS')
+            div.form-group
+              label(for='courseKind') Rodzaj kursu:
+              select.form-control(id="year" name="")
+                if(courseKinds)
+                  each item in courseKinds
+                    option(value=item.ID)=item.nazwaRodzajuKursu
+            div.form-group
+              label(for='courseYear') Rok akademicki:
+              input#name.form-control(type='text', name='courseYear')
+            div.form-group
+              label(for='courseSemester') Semestr:
+              select.form-control(id="courseSemester" name="courseSemester")
+                if(courseSemesters)
+                  each item in courseSemesters
+                    option(value=item.ID)=item.nazwaSemestru
+            div.invisible
+              input(type='submit',id='submit-form-1')
+  
+    
+      .col.col-md-2.offset-2
+        label(for='submit-form-1').next-button
+          

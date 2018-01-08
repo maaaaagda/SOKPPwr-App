@@ -2,9 +2,29 @@ var express = require('express');
 var router = express.Router();
 var sess;
 router.get('/', function(req, res, next) {
-  res.render('first_add', {title: "Hello add"});
-});
+  req.getConnection(function(err,connection) {
+      connection.query('SELECT * FROM rodzajkursu', function(err,rows) {
 
+          if(err) {
+            console.log("Error Selecting in mysql" );
+            res.redirect('/'); /*upsss sth went wrong */
+          }
+          else {
+            connection.query('SELECT * FROM semestr', function(err,rows1) {
+
+                if(err) {
+                  console.log("Error Selecting in mysql" );
+                  res.redirect('/'); /*upsss sth went wrong */
+                }
+                else {
+                  res.render('first_add', {titl: 'Dołącz do wniosku o kurs poprawkowy', courseKinds: rows, courseSemesters: rows1
+                });
+              }
+          });
+        }
+    });
+  });
+});
 router.post('/', function(req, res, next) {
   var input = JSON.parse(JSON.stringify(req.body));
   sess = req.session;
