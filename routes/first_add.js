@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var sess;
+var Promise = require('bluebird');
+
+
 router.get('/', function(req, res, next) {
   req.getConnection(function(err,connection) {
       connection.query('SELECT * FROM rodzajkursu', function(err,rows) {
@@ -28,30 +31,51 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var input = JSON.parse(JSON.stringify(req.body));
   sess = req.session;
-  req.getConnection(function (err, connection) {
+  const nameRequired = "Nazwa kursu jest obowiązkowa!";
+  const codeExistsNot = "Podany kod przedmiotu nie istnieje!";
+  var codeExists;
 
-      var data = {
+  var data = {
 
-          name        : input.name,
-          description : input.description,
-      };
+      courseCode      : input.courseCode,
+      courseName      : input.courseName,
+      courseECTS      : input.courseECTS,
+      courseKind      : input.courseKind,
+      courseSemester  : input.courseSemester,
+      courseYear      : input.courseYear
+  };
+  req.body = data;
 
-      sess.name = input.name;
-      sess.description = input.description;
-      console.log(data);
-    /*  var query = connection.query("INSERT INTO products set ? ",data, function(err, rows)
-      {
 
-        if (err)
-            console.log("Error inserting : %s ",err );
+  var getConn = Promise.promisify(req.getConnection, {context: req});
+  getConn().then(function(connection) {
+    var query = Promise.promisify(connection.query, {context: connection});
+    return query("SELECT COUNT(*) codeExists FROM kurs WHERE kurs.KodPrzedmiotu='"+data.courseCode+"' LIMIT 1");
+  }).then(function(rows) {
+    codeExists = rows[0].codeExists;
+    req.checkBody('courseCode', codeExistsNot ).custom(() => codeExists == 1);
+    req.checkBody('courseName', nameRequired ).notEmpty();
+    req.getValidationResult()
+     .then(function(result){
+       var errors = result.array();
+       console.log(errors);
+       if(errors.length > 0) {
+         const courseNameEmpty = errors.find(el => el.msg === nameRequired);
+         const courseCodeNotValid = errors.find(el => el.msg === codeExistsNot);
 
-        res.redirect('/');
+         res.render ('first_add', {errors, courseNameEmpty,courseCodeNotValid } )
+       } else {
+          res.render('second_add');
+       }
 
-      });*/
+     });
 
-     // console.log(query.sql); get raw query
-     res.redirect('/second_add');
-  });
+  }, function(err) {
+      console.log("Error in performing mysql query : %s " + err);
+      res.statusCode = 404; // upsssssss sth went wrong
+  }).then();
+
+     sess.data = data;
 
 });
 

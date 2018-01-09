@@ -3,32 +3,49 @@ extends layout
 block content
   .main.container
     .row.vertical-align
-      .col-md-8
+      .col-md-6.offset-md-3
+        br
         h1.display-4.m-b-2 Dopisz się do wniosku 
         
         .my-jumbotron
-          form(method='POST' action='/first_add') 
-            div.form-group
-              label(for='courseCode') Kod przedmiotu:
-              input#name.form-control(type='text', name='curseCode')
+          form(method='POST' action='/first_add')            
+            if(courseCodeNotValid)
+              div.form-group.has-danger
+                label(for='courseCode') Kod przedmiotu:
+                input#name.form-control.form-control-danger(type='text',  name='courseCode' required)
+                div.form-control-feedback=courseCodeNotValid.msg
+            else
+              div.form-group
+                label(for='courseCode') Kod przedmiotu:
+                input#name.form-control(type='text',  name='courseCode' required)
+                
             div.form-group
               label(for='courseName') Nazwa kursu:
-              input#name.form-control(type='text', name='curseName')
-            div.form-group
+              input#name.form-control(type='text', name='courseName' required)
+              
+            div.form-groups
+              -var i=1;
               label(for='courseECTS') Punkty ECTS:
-              input#name.form-control(type='text', name='curseECTS')
+              select#name.form-control(name="courseECTS" )
+                while i<21
+                    option(value=i)=i++
             div.form-group
               label(for='courseKind') Rodzaj kursu:
-              select.form-control(id="year" name="")
+              select#name.form-control(name="courseKind")
                 if(courseKinds)
                   each item in courseKinds
                     option(value=item.ID)=item.nazwaRodzajuKursu
             div.form-group
+              -var j=2018;  /*current year */
+              -var before;
+              -var after;
               label(for='courseYear') Rok akademicki:
-              input#name.form-control(type='text', name='courseYear')
+              select#name.form-control(name='courseYear')
+                while j>2000
+                  option(value=j)=j-1+'/'+j--
             div.form-group
               label(for='courseSemester') Semestr:
-              select.form-control(id="courseSemester" name="courseSemester")
+              select#name.form-control(name="courseSemester")
                 if(courseSemesters)
                   each item in courseSemesters
                     option(value=item.ID)=item.nazwaSemestru
@@ -36,6 +53,6 @@ block content
               input(type='submit',id='submit-form-1')
   
     
-      .col.col-md-2.offset-2
+      .col.col-md-2.offset-1
         label(for='submit-form-1').next-button
           
