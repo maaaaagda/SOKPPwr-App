@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  -var work = !{inquiries} 
   .main.container
     .row.vertical-align
       .col.col-md-2
@@ -18,29 +19,43 @@ block content
               label(for='teacherName') Imię prowadzącego:
               input.form-control(type='text', placeholder='Anna' id='teacherName')
             div.form-group
-              label(for='courseCounselorSurname') Nazwisko prowadzącego:
+              label(for='courseCounselorSurname') Nazwisko opiekuna kursu:
               input.form-control(type='text', placeholder='Romanowski' id='courseCounselorSurname')
             div.form-group
-              label(for='courseCounselorName') Imię prowadzącego:
+              label(for='courseCounselorName') Imię opiekuna kursu:
               input.form-control(type='text', placeholder='Jan' id='courseCounselorName')            
             div.invisible
-              input(type='submit')
+              input(type='submit' id='submit-form')
   
     
       .col.col-md-2.offset-1
-        label(for='submit-form-1').next-button
+        label(for='submit-form').next-button
   
   script.
     document.onreadystatechange = () => {
       if (document.readyState === 'complete') {
-          document.getElementById("teacherName").addEventListener("keyup", checkTeacher);
+          //document.getElementById("teacherName").addEventListener("keyup", checkTeacher);
+          var inquiries =  !{(inquiries)}; ///maaaaaaaaaaaaaaagic line   var inquiries =  !{(inquiries)};
+          
+          for (var i = 0 ; i < inquiries.length; i++) { 
+              console.log(inquiries[0].ImieOpiekuna);
+          } 
+          $("input").focusout(function(){
+            checkTeacher();
+          })
+        }
       }
-    };
     
     function checkTeacher() {
-        var x = document.getElementById("teacherName");
-        var y = document.getElementById("teacherSurame");
-        if(x != '' && y!= '') {
+        var teacherName = document.getElementById("teacherName");
+        var teacherSurame = document.getElementById("teacherSurame");
+        var inquiries= '#{inquiries}';
+        if(teacherName.value !== '' && teacherSurname.value !== '') {
+          for (let i of inquiries) {
+            console.log(i.ImieOpiekuna);
+          }
+          $("#teacherName").css("background-color", "green");
+          $("#teacherSurname").css("background-color", "green");
           
         }
     }

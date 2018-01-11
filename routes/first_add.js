@@ -73,7 +73,7 @@ router.post('/', function(req, res, next) {
          console.log(sess.data);
          renderFormData(req, res, {errors, courseNameEmpty,courseCodeNotValid, session: sess.data} )
        } else {
-          res.render('second_add');
+          res.redirect('second_add');
        }
      });
   }, function(err) {
