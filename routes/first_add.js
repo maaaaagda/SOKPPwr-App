@@ -3,31 +3,38 @@ var router = express.Router();
 var sess;
 var Promise = require('bluebird');
 
+function renderFormData(req, res, renderData) {
+  var getConn = Promise.promisify(req.getConnection, {context: req});
+  getConn()
+  .then(function(connection) {
+    var query = Promise.promisify(connection.query, {context: connection});
+    return query("SELECT * FROM rodzajkursu");
+  }, function(err) {
+    console.log("Error in performing mysql query : %s " + err);
+    res.statusCode = 404; // upsssssss sth went wrong
+  }).then(function(rows) {
+      renderData["courseKinds"] = rows;
+      var getConn = Promise.promisify(req.getConnection, {context: req});
+      getConn()
+      .then(function(connection) {
+        var query = Promise.promisify(connection.query, {context: connection});
+        return query("SELECT * FROM semestr");
+      }, function(err) {
+        console.log("Error in performing mysql query : %s " + err);
+        res.statusCode = 404; // upsssssss sth went wrong
+      })
+      .then(function(rows) {
+        renderData["courseSemesters"] = rows;
+        console.log(renderData);
+        res.render('first_add', renderData);
+      });
+    })
+}
 
 router.get('/', function(req, res, next) {
-  req.getConnection(function(err,connection) {
-      connection.query('SELECT * FROM rodzajkursu', function(err,rows) {
-
-          if(err) {
-            console.log("Error Selecting in mysql" );
-            res.redirect('/'); /*upsss sth went wrong */
-          }
-          else {
-            connection.query('SELECT * FROM semestr', function(err,rows1) {
-
-                if(err) {
-                  console.log("Error Selecting in mysql" );
-                  res.redirect('/'); /*upsss sth went wrong */
-                }
-                else {
-                  res.render('first_add', {titl: 'Dołącz do wniosku o kurs poprawkowy', courseKinds: rows, courseSemesters: rows1
-                });
-              }
-          });
-        }
-    });
-  });
+  renderFormData(req, res, {});
 });
+
 router.post('/', function(req, res, next) {
   var input = JSON.parse(JSON.stringify(req.body));
   sess = req.session;
@@ -45,7 +52,7 @@ router.post('/', function(req, res, next) {
       courseYear      : input.courseYear
   };
   req.body = data;
-
+  sess.data = data;
 
   var getConn = Promise.promisify(req.getConnection, {context: req});
   getConn().then(function(connection) {
@@ -59,23 +66,20 @@ router.post('/', function(req, res, next) {
      .then(function(result){
        var errors = result.array();
        console.log(errors);
+
        if(errors.length > 0) {
          const courseNameEmpty = errors.find(el => el.msg === nameRequired);
          const courseCodeNotValid = errors.find(el => el.msg === codeExistsNot);
-
-         res.render ('first_add', {errors, courseNameEmpty,courseCodeNotValid } )
+         console.log(sess.data);
+         renderFormData(req, res, {errors, courseNameEmpty,courseCodeNotValid, session: sess.data} )
        } else {
           res.render('second_add');
        }
-
      });
-
   }, function(err) {
       console.log("Error in performing mysql query : %s " + err);
       res.statusCode = 404; // upsssssss sth went wrong
-  }).then();
-
-     sess.data = data;
+  });
 
 });
 

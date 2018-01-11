@@ -2,14 +2,45 @@ extends layout
 
 block content
   .main.container
-    .row
-      .col-md-6.col-md-offset-3
-        h1.display-4.m-b-2 Sign Up
-
-        // register form
-        form(method='POST' action='/second_add')
-          div.form-group
-            label(for='price') Price:
-            input#price.form-control(type='text', placeholder='100 zl' name='price')
+    .row.vertical-align
+      .col.col-md-2
+        p.prev-button(onClick="goBack()")
+        
+      .col-md-6.offset-1
+        br
+        h1.display-5.m-b-2 Dopisz się do wniosku 2/3
+        .my-jumbotron
+          form(method='POST' action='/second_add')
+            div.form-group
+              label(for='teacherSurname') Nazwisko prowadzącego:
+              input.form-control(type='text', placeholder='Kowalska-Nowak' id='teacherSurname')
+            div.form-group
+              label(for='teacherName') Imię prowadzącego:
+              input.form-control(type='text', placeholder='Anna' id='teacherName')
+            div.form-group
+              label(for='courseCounselorSurname') Nazwisko prowadzącego:
+              input.form-control(type='text', placeholder='Romanowski' id='courseCounselorSurname')
+            div.form-group
+              label(for='courseCounselorName') Imię prowadzącego:
+              input.form-control(type='text', placeholder='Jan' id='courseCounselorName')            
+            div.invisible
+              input(type='submit')
+  
+    
+      .col.col-md-2.offset-1
+        label(for='submit-form-1').next-button
+  
+  script.
+    document.onreadystatechange = () => {
+      if (document.readyState === 'complete') {
+          document.getElementById("teacherName").addEventListener("keyup", checkTeacher);
+      }
+    };
+    
+    function checkTeacher() {
+        var x = document.getElementById("teacherName");
+        var y = document.getElementById("teacherSurame");
+        if(x != '' && y!= '') {
           
-          button.btn.btn-primary(type='submit') Add product
+        }
+    }

@@ -14,6 +14,10 @@ function goToHomePage(){
     window.location.href = '/';
 }
 
+function goBack(){
+    history.go(-1);
+}
+
 function createNewApplication(){
     window.location.href = '/first_add';
 }
