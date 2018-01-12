@@ -7,7 +7,7 @@ block content
       .col.col-md-2
         p.prev-button(onClick="goBack()")
         
-      .col-md-6.offset-1
+      .col-md-6
         br
         h1.display-5.m-b-2 Dopisz się do wniosku 2/3
         .my-jumbotron
@@ -26,22 +26,23 @@ block content
               input.form-control(type='text', placeholder='Jan' id='courseCounselorName')            
             div.invisible
               input(type='submit' id='submit-form')
-  
-    
-      .col.col-md-2.offset-1
+              
+      .col.col-md-2
+        svg(width="150" height="150")
+          path(id="check" d="M10,50 l25,40 l95,-70")
+        br
+        svg(width="150" height="150")
+          path(id="check1" d="M10,50 l25,40 l95,-70")
+        
+      .col.col-md-2
         label(for='submit-form').next-button
   
   script.
     document.onreadystatechange = () => {
       if (document.readyState === 'complete') {
-          //document.getElementById("teacherName").addEventListener("keyup", checkTeacher);
-          var inquiries =  !{(inquiries)}; ///maaaaaaaaaaaaaaagic line   var inquiries =  !{(inquiries)};
-          
-          for (var i = 0 ; i < inquiries.length; i++) { 
-              console.log(inquiries[0].ImieOpiekuna);
-          } 
           $("input").focusout(function(){
             checkTeacher();
+            checkCourseCounselor();
           })
         }
       }
@@ -49,13 +50,40 @@ block content
     function checkTeacher() {
         var teacherName = document.getElementById("teacherName");
         var teacherSurame = document.getElementById("teacherSurame");
-        var inquiries= '#{inquiries}';
+        var inquiries= !{(inquiries)};
         if(teacherName.value !== '' && teacherSurname.value !== '') {
-          for (let i of inquiries) {
-            console.log(i.ImieOpiekuna);
-          }
-          $("#teacherName").css("background-color", "green");
-          $("#teacherSurname").css("background-color", "green");
+          for (var i = 0 ; i < inquiries.length; i++) { 
+              if(inquiries[i].ImieProwadzacego == teacherName.value && inquiries[i].NazwiskoProwadzacego == teacherSurname.value) {
+                $("#teacherName").css("background-color", "green");
+                $("#teacherSurname").css("background-color", "green");
+              }
+              else {
+                $("#teacherName").css("background-color", "white");
+                $("#teacherSurname").css("background-color", "white");
+              }
+          } 
+          
+        }
+    }
+    
+    function checkCourseCounselor() {
+        var courseCounselorName = document.getElementById("courseCounselorName");
+        var courseCounselorSurame = document.getElementById("courseCounselorSurame");
+        var inquiries= !{(inquiries)};
+        if(courseCounselorName.value !== '' && courseCounselorSurname.value !== '') {
+          for (var i = 0 ; i < inquiries.length; i++) { 
+              if(inquiries[i].ImieOpiekuna == courseCounselorName.value && inquiries[i].NazwiskoOpiekuna == courseCounselorSurname.value ) {
+                $("#check1").css("visibility", "visible");
+                $("#check1").css("animation", "draw 2s 1 ease forwards");
+                $("#courseCounselorName").css("border-color", "green");
+                $("#courseCounselorSurname").css("border-color", "green");
+              }
+              else {
+                $("#check1").css("visibility", "hidden");
+                $("#courseCounselorName").css("border-color", "");
+                $("#courseCounselorSurname").css("border-color", "");
+              }
+          } 
           
         }
     }
