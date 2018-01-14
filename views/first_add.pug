@@ -44,9 +44,9 @@ block content
               select#name.form-control(name='courseYear')
                 while j>2000
                   if(session && session.courseYear==j)
-                    option(value=j selected)=j-1+'/'+j--
+                    option(selected)=j-1+'/'+j--
                   else
-                    option(value=j)=j-1+'/'+j--
+                    option=j-1+'/'+j--
                   
             div.form-group
               label(for='courseSemester') Semestr:

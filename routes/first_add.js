@@ -5,30 +5,27 @@ var Promise = require('bluebird');
 
 function renderFormData(req, res, renderData) {
   var getConn = Promise.promisify(req.getConnection, {context: req});
-  getConn()
-  .then(function(connection) {
-    var query = Promise.promisify(connection.query, {context: connection});
-    return query("SELECT * FROM rodzajkursu");
-  }, function(err) {
-    console.log("Error in performing mysql query : %s " + err);
-    res.statusCode = 404; // upsssssss sth went wrong
-  }).then(function(rows) {
-      renderData["courseKinds"] = rows;
-      var getConn = Promise.promisify(req.getConnection, {context: req});
-      getConn()
-      .then(function(connection) {
-        var query = Promise.promisify(connection.query, {context: connection});
-        return query("SELECT * FROM semestr");
-      }, function(err) {
-        console.log("Error in performing mysql query : %s " + err);
-        res.statusCode = 404; // upsssssss sth went wrong
-      })
-      .then(function(rows) {
-        renderData["courseSemesters"] = rows;
-        console.log(renderData);
-        res.render('first_add', renderData);
-      });
-    })
+  getConn().then(function(connection) {
+            var query = Promise.promisify(connection.query, {context: connection});
+            return query("SELECT * FROM rodzajkursu");
+          }, function(err) {
+            console.log("Error in performing mysql query : %s " + err);
+            res.statusCode = 404; // upsssssss sth went wrong
+          }).then(function(rows) {
+              renderData["courseKinds"] = rows;
+              var getConn = Promise.promisify(req.getConnection, {context: req});
+              getConn().then(function(connection) {
+                        var query = Promise.promisify(connection.query, {context: connection});
+                        return query("SELECT * FROM semestr");
+                      }, function(err) {
+                        console.log("Error in performing mysql query : %s " + err);
+                        res.statusCode = 404; // upsssssss sth went wrong
+                      }).then(function(rows) {
+                        renderData["courseSemesters"] = rows;
+                        console.log(renderData);
+                        res.render('first_add', renderData);
+                      });
+            })
 }
 
 router.get('/', function(req, res, next) {

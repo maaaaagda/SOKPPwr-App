@@ -7,33 +7,35 @@ block content
       .col.col-md-2
         p.prev-button(onClick="goBack()")
         
-      .col-md-6
+      .col-md-8
         br
         h1.display-5.m-b-2 Dopisz się do wniosku 2/3
-        .my-jumbotron
-          form(method='POST' action='/second_add')
-            div.form-group
-              label(for='teacherSurname') Nazwisko prowadzącego:
-              input.form-control(type='text', placeholder='Kowalska-Nowak' id='teacherSurname')
-            div.form-group
-              label(for='teacherName') Imię prowadzącego:
-              input.form-control(type='text', placeholder='Anna' id='teacherName')
-            div.form-group
-              label(for='courseCounselorSurname') Nazwisko opiekuna kursu:
-              input.form-control(type='text', placeholder='Romanowski' id='courseCounselorSurname')
-            div.form-group
-              label(for='courseCounselorName') Imię opiekuna kursu:
-              input.form-control(type='text', placeholder='Jan' id='courseCounselorName')            
-            div.invisible
-              input(type='submit' id='submit-form')
-              
-      .col.col-md-2
-        svg(width="150" height="150")
-          path(id="check" d="M10,50 l25,40 l95,-70")
-        br
-        svg(width="150" height="150")
-          path(id="check1" d="M10,50 l25,40 l95,-70")
-        
+        .row.my-jumbotron
+          .col-md-8
+            form(method='POST' action='/second_add')
+              div.form-group
+                label(for='teacherSurname') Nazwisko prowadzącego:
+                input.form-control(type='text', placeholder='Kowalska-Nowak' id='teacherSurname')
+              div.form-group
+                label(for='teacherName') Imię prowadzącego:
+                input.form-control(type='text', placeholder='Anna' id='teacherName')
+              br
+              div.form-group
+                label(for='courseCounselorSurname') Nazwisko opiekuna kursu:
+                input.form-control(type='text', placeholder='Romanowski' id='courseCounselorSurname')
+              div.form-group
+                label(for='courseCounselorName') Imię opiekuna kursu:
+                input.form-control(type='text', placeholder='Jan' id='courseCounselorName')            
+              input(type='submit' id='submit-form').invisible
+          .col-md-4
+            .teacherAllowance
+              svg(width="150" height="150").svgCheckContainer1
+                path(id="check" d="M10,50 l25,40 l95,-70")
+              p(id="teacherAllowanceInfo") Brak zgody prowadzącego! Możesz kontynuowć, jednak opcja wysłania wniosku będzie zablokowana
+            .teacherAllowance
+              svg(width="150" height="150").svgCheckContainer2
+                path(id="check1" d="M10,50 l25,40 l95,-70")
+              p(id="counselorAllowanceInfo") Brak zgody opiekuna kursu! Możesz kontynuowć, jednak opcja wysłania wniosku będzie zablokowana
       .col.col-md-2
         label(for='submit-form').next-button
   
@@ -50,36 +52,53 @@ block content
     function checkTeacher() {
         var teacherName = document.getElementById("teacherName");
         var teacherSurame = document.getElementById("teacherSurame");
-        var inquiries= !{(inquiries)};
-        if(teacherName.value !== '' && teacherSurname.value !== '') {
-          for (var i = 0 ; i < inquiries.length; i++) { 
-              if(inquiries[i].ImieProwadzacego == teacherName.value && inquiries[i].NazwiskoProwadzacego == teacherSurname.value) {
-                $("#teacherName").css("background-color", "green");
-                $("#teacherSurname").css("background-color", "green");
+        var inquiries = !{(inquiries)};
+        var teacherFound = false;
+        var teacherID;
+        if(teacherName.value !== '' && teacherSurname.value !== '' ) {
+          for (var i = 0 ; i < inquiries.length && !teacherFound; i++) { 
+              if(inquiries[i].ImieProwadzacego == teacherName.value && inquiries[i].NazwiskoProwadzacego == teacherSurname.value && inquiries[i].ZgodaProwadzacego == 1) {
+                $("#teacherAllowanceInfo").css("display", "none");
+                $(".svgCheckContainer1").css("display", "flex");
+                $("#check").css("animation", "draw 2s 1 ease forwards");
+                $("#teacherName").css("border-color", "green");
+                $("#teacherSurname").css("border-color", "green");
+                teacherID = inquiries[i].IDProwadzacego;
+                teacherFound = true;
+                console.log(teacherID); 
               }
               else {
-                $("#teacherName").css("background-color", "white");
-                $("#teacherSurname").css("background-color", "white");
+                $("#teacherAllowanceInfo").css("display", "block");
+                $(".svgCheckContainer1").css("display", "none");
+                $("#teacherName").css("border-color", "");
+                $("#teacherSurname").css("border-color", "");
+                teacherID = null;
+                teacherFound = false; 
               }
           } 
           
-        }
+      }
+    //  return teacherID;
     }
     
+    //* TO-DO disable option of writing course counselor, just check if student has his permission
     function checkCourseCounselor() {
         var courseCounselorName = document.getElementById("courseCounselorName");
         var courseCounselorSurame = document.getElementById("courseCounselorSurame");
         var inquiries= !{(inquiries)};
         if(courseCounselorName.value !== '' && courseCounselorSurname.value !== '') {
           for (var i = 0 ; i < inquiries.length; i++) { 
-              if(inquiries[i].ImieOpiekuna == courseCounselorName.value && inquiries[i].NazwiskoOpiekuna == courseCounselorSurname.value ) {
-                $("#check1").css("visibility", "visible");
+              if(inquiries[i].ImieOpiekuna == courseCounselorName.value && inquiries[i].NazwiskoOpiekuna == courseCounselorSurname.value && inquiries[i].ZgodaOpiekuna == 1) {
+                $("#counselorAllowanceInfo").css("display", "none");
+                $(".svgCheckContainer2").css("display", "flex");
                 $("#check1").css("animation", "draw 2s 1 ease forwards");
                 $("#courseCounselorName").css("border-color", "green");
                 $("#courseCounselorSurname").css("border-color", "green");
+                break;
               }
               else {
-                $("#check1").css("visibility", "hidden");
+                $("#counselorAllowanceInfo").css("display", "block");
+                $(".svgCheckContainer2").css("display", "none");
                 $("#courseCounselorName").css("border-color", "");
                 $("#courseCounselorSurname").css("border-color", "");
               }
