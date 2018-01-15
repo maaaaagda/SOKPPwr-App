@@ -3,6 +3,7 @@ var router = express.Router();
 var sess;
 var Promise = require('bluebird');
 var userID = 1; //when no errors change it to sess.userID
+
 function renderFormData(req, res, renderData) {
   sess = req.session;
   var getConn = Promise.promisify(req.getConnection, {context: req});
@@ -45,7 +46,7 @@ router.post('/', function(req, res, next) {
                 data.teacherID = "";
               }
               sess.data = data;
-              res.redirect('/second_add');
+              res.redirect('/third_add');
               })
 
 });

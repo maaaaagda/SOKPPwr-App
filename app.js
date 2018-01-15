@@ -37,6 +37,7 @@ var joinCongrats = require('./routes/join_app_congrats');
 var users = require('./routes/users');
 var add = require('./routes/first_add');
 var add2 = require('./routes/second_add');
+var add3 = require('./routes/third_add');
 
 var mysql = require('mysql'), // node-mysql module
     myConnection = require('express-myconnection'), // express-myconnection module
@@ -53,10 +54,11 @@ app.use(myConnection(mysql, dbOptions, 'request'));
 app.use('/', index);
 app.use('/join_application', join);
 app.use('/join_app_congrats', joinCongrats);
-
-app.use('/users', users);
+//app.use('/users', users);
 app.use('/first_add', add);
 app.use('/second_add', add2);
+app.use('/third_add', add3);
+
 
 // catch 404 and forward to error handler
 

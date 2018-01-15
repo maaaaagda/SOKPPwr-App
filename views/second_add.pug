@@ -1,7 +1,6 @@
 extends layout
 
 block content
-  -var work = !{inquiries} 
   .main.container
     .row.vertical-align
       .col.col-md-2
@@ -9,7 +8,7 @@ block content
         
       .col-md-8
         br
-        h1.display-5.m-b-2 Dopisz się do wniosku 2/3
+        h1.display-5.m-b-2 Utwórz nowy wniosek 2/3
         .row.my-jumbotron
           .col-md-8
             form(method='POST' action='/second_add')
@@ -45,7 +44,6 @@ block content
       if (document.readyState === 'complete') {
             $("input").focusout(function(){
               findTeacher();
-              console.log("sid " + teacherId)                    
               checkCourseCounselor();
             })         
           }          

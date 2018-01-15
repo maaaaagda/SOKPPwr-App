@@ -44,10 +44,11 @@ router.post('/', function(req, res, next) {
       courseCode      : input.courseCode,
       courseName      : input.courseName,
       courseECTS      : input.courseECTS,
-      courseKind      : input.courseKind,
+      courseKind      : input.courseKind.value,
       courseSemester  : input.courseSemester,
       courseYear      : input.courseYear
   };
+
   req.body = data;
   sess.data = data;
 
