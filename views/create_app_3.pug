@@ -1,0 +1,70 @@
+extends layout
+
+block content
+  .main.container
+    .row.vertical-align
+      .col.col-md-2.offset-md-1
+        p.prev-button(onClick="goBack()")
+        
+      .col-md-6
+        br
+        h1.display-5.m-b-2 Utwórz nowy wniosek 3/3
+        .my-jumbotron
+          
+            form(method='POST' action='/create_app_3')
+              div.form-group(class = buildingNameNotValid != null ? "has-danger":"")
+                label(for='building') Budynek politechniki
+                input.form-control(type='text' placeholder='D2' name="building" id="building" value=session?session.building:"")
+                if(buildingNameNotValid)
+                  p.form-control-feedback=buildingNameNotValid.msg
+              div.form-group(class = classroomNameNotValid != null ? "has-danger":"")
+                label(for='classroom') Numer sali
+                input.form-control(type='text', placeholder='127a' name="classroom" id="classroom" value=session?session.classroom:"")
+                if(classroomNameNotValid)
+                  p.form-control-feedback=classroomNameNotValid.msg
+              div.form-group
+                label(for='classesDay') Dzień odbywania się zajęć
+                select#name.form-control(name="classesDay")
+                  if(days)
+                    each item in days
+                      if(session && session.classesDay == item.nazwaDniaTyg)
+                        option(selected)=item.nazwaDniaTyg
+                      else
+                        option=item.nazwaDniaTyg
+              div.form-group(class = startOfClassesNotValid != null ? "has-danger":"")
+                label(for='startOfClasses') Godzina rozpoczęcia zajęć
+                input.form-control(type='text' placeholder='14.15' name="startOfClasses" id="startOfClasses" value=session?session.startOfClasses:"")
+                if(classroomNameNotValid)
+                  p.form-control-feedback=startOfClassesNotValid.msg
+              div.form-group(class = endOfClassesNotValid != null ? "has-danger":"")
+                label(for='endOfClasses') Godzina zakończenia zajęć
+                input.form-control(type='text' placeholder='16.45' name="endOfClasses" id="endOfClasses" value=session?session.endOfClasses:"")
+                if(classroomNameNotValid)
+                  p.form-control-feedback=endOfClassesNotValid.msg
+              div.form-group
+                label(for='classesWeek') Parzystość tygodnia
+                select#name.form-control(name="classesWeek")
+                  if(week)
+                    each item in week
+                      if(session && session.classesWeek == item.nazwaParzystosciTyg)
+                        option(selected)=item.nazwaParzystosciTyg
+                      else
+                        option=item.nazwaParzystosciTyg     
+              input(type='submit' id='submit-form').invisible
+          
+      .col.col-md-2.offset-md-1
+        label(for='submit-form').next-button
+        
+    script.
+      document.onreadystatechange = () => {
+        if (document.readyState === 'complete') {
+              $("input").focus(function(){
+                var $x = $(document.activeElement);
+                $x.closest("div").removeClass("has-danger");
+                $x.closest("div").children(".form-control-feedback").css("display", "none");
+                
+              })             
+            }          
+            
+        }
+          

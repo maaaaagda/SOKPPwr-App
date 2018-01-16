@@ -35,9 +35,10 @@ var join = require('./routes/join_application');
 var joinCongrats = require('./routes/join_app_congrats');
 
 var users = require('./routes/users');
-var add = require('./routes/first_add');
-var add2 = require('./routes/second_add');
-var add3 = require('./routes/third_add');
+var create1 = require('./routes/create_app_1');
+var create2 = require('./routes/create_app_2');
+var create3 = require('./routes/create_app_3');
+var createCongrats = require('./routes/create_app_congrats');
 
 var mysql = require('mysql'), // node-mysql module
     myConnection = require('express-myconnection'), // express-myconnection module
@@ -55,10 +56,10 @@ app.use('/', index);
 app.use('/join_application', join);
 app.use('/join_app_congrats', joinCongrats);
 //app.use('/users', users);
-app.use('/first_add', add);
-app.use('/second_add', add2);
-app.use('/third_add', add3);
-
+app.use('/create_app_1', create1);
+app.use('/create_app_2', create2);
+app.use('/create_app_3', create3);
+app.use('/create_app_congrats', createCongrats);
 
 // catch 404 and forward to error handler
 

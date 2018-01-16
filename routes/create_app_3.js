@@ -23,7 +23,7 @@ function renderFormData(req, res, renderData) {
                       }).then(function(rows) {
                         renderData["week"] = rows;
                         console.log(renderData);
-                        res.render('third_add', renderData);
+                        res.render('create_app_3', renderData);
                       });
             })
 }
@@ -38,8 +38,9 @@ router.post('/', function(req, res, next) {
   sess = req.session;
   const buildingNameValid = "Nazwa budynku nie może zawierać znaków specjalnych!";
   const classroomNameValid = "Nazwa sali nie może zawierać znaków specjalnych!";
+  const startOfClassesMsg= "Błędny czas! Wpisz czas w formacie hh.mm ";
+  const endOfClassesMsg= "Błędny czas! Wpisz czas w formacie hh.mm ";
 
-  req.body = data;
   //sess.data = data;
   var data = sess.data;
 
@@ -47,9 +48,15 @@ router.post('/', function(req, res, next) {
   data.classroom = input.classroom;
   data.classesDay = input.classesDay;
   data.classesWeek = input.classesWeek;
+  data.startOfClasses = input.startOfClasses;
+  data.endOfClasses = input.endOfClasses;
 
-  req.checkBody('building', buildingNameValid).notEmpty();
-  req.checkBody('classroom', classroomNameValid).matches("/[a-zA-Z0-9]");
+  req.body = data;
+
+  req.checkBody('building', buildingNameValid).matches(/^$|^[a-zA-Z\d\.\s]+$/);
+  req.checkBody('classroom', classroomNameValid).matches(/^$|^[a-zA-Z\d\.\s]+$/);
+  req.checkBody('startOfClasses', startOfClassesMsg).matches(/^([01]?[0-9]|2[0-3]):[0-5][05]$/);
+  req.checkBody('endOfClasses', endOfClassesMsg).matches(/^([01]?[0-9]|2[0-3]):[0-5][05]$/);
   req.getValidationResult()
    .then(function(result){
      var errors = result.array();
@@ -58,10 +65,14 @@ router.post('/', function(req, res, next) {
      if(errors.length > 0) {
        const buildingNameNotValid = errors.find(el => el.msg === buildingNameValid);
        const classroomNameNotValid = errors.find(el => el.msg === classroomNameValid);
-       console.log(sess.data);
-       renderFormData(req, res, {errors, buildingNameNotValid, classroomNameNotValid, session: data} )
+       const startOfClassesNotValid = errors.find(el => el.msg === startOfClassesMsg);
+       const endOfClassesNotValid = errors.find(el => el.msg === endOfClassesMsg);
+
+       renderFormData(req, res, {errors, buildingNameNotValid, classroomNameNotValid, startOfClassesNotValid, endOfClassesNotValid, session: data} )
      } else {
-        res.redirect('third_add');
+        sess.data = data;
+        console.log(sess.data);
+        res.redirect('create_app_congrats');
      }
    })
  });

@@ -7,56 +7,35 @@ block content
         br
         h1.display-5.m-b-2 Utwórz nowy wniosek 1/3
         .my-jumbotron
-          form(method='POST' action='/first_add')            
+          form(method='POST' action='/create_app_1')            
             div.form-group(class= courseCodeNotValid != null ? "has-danger":"")
               label(for='courseCode') Kod przedmiotu:
               input#name.form-control.form-control-danger(type='text',  name='courseCode' required value=session?session.courseCode:"")
               if(courseCodeNotValid)
                 p.form-control-feedback=courseCodeNotValid.msg
+                                
             div.form-group
-              label(for='courseName') Nazwa kursu:
-              input#name.form-control(type='text', name='courseName' required value=session?session.courseName:"")
-              
-            div.form-groups
-              -var i=1;
-              label(for='courseECTS') Punkty ECTS:
-              select#name.form-control(name="courseECTS" )
-                while i<21
-                  if(session && session.courseECTS==i)
-                    option(value=i selected)=i++
-                  else
-                    option(value=i)=i++
-            div.form-group
-              label(for='courseKind') Rodzaj kursu:
-              select#name.form-control(name="courseKind")
-                if(courseKinds)
-                  each item in courseKinds
-                    if(session && session.courseKind==item.nazwaRodzajuKursu)
-                      option(selected)=item.nazwaRodzajuKursu
-                    else
-                      option=item.nazwaRodzajuKursu
-                    
-            div.form-group
-              -var j=2018;  /*current year */
-              -var before;
-              -var after;
+              -var j=(new Date()).getFullYear()-1;
+              -var loops = 2;
+              -var resultYear = j+'/'+ ++j;
               label(for='courseYear') Rok akademicki:
               select#name.form-control(name='courseYear')
-                while j>2000
-                  if(session && session.courseYear==j)
-                    option(selected)=j-1+'/'+j--
+                while loops>0
+                  if(session && session.courseYear==resultYear)
+                    option(selected)=resultYear
                   else
-                    option=j-1+'/'+j--
-                  
+                    option=resultYear
+                  -loops--
+                  -resultYear = j+'/'+ ++j;
             div.form-group
               label(for='courseSemester') Semestr:
               select#name.form-control(name="courseSemester")
                 if(courseSemesters)
                   each item in courseSemesters
                     if(session && session.courseSemester==item.nazwaSemestru)
-                      option(selected)=item.nazwaSemestru
+                      option(value = item.ID selected)=item.nazwaSemestru
                     else
-                      option=item.nazwaSemestru
+                      option(value = item.ID)=item.nazwaSemestru
                     
             div.invisible
               input(type='submit' id='submit-form-1')

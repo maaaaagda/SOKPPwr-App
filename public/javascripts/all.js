@@ -1,5 +1,5 @@
 function addUser(){
-    window.location.href = '/first_add';
+    window.location.href = '/create_app_1';
 }
 
 function joinApplication(){
@@ -19,5 +19,5 @@ function goBack(){
 }
 
 function createNewApplication(){
-    window.location.href = '/first_add';
+    window.location.href = '/create_app_1';
 }

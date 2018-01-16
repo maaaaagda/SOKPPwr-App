@@ -11,30 +11,24 @@ block content
         h1.display-5.m-b-2 Utwórz nowy wniosek 2/3
         .row.my-jumbotron
           .col-md-8
-            form(method='POST' action='/second_add')
-              div.form-group
+            form(method='POST' action='/create_app_2')
+              div.form-group(class=teacherSurnameNotValid!= null ? "has-danger":"")
                 label(for='teacherSurname') Nazwisko prowadzącego:
-                input.form-control(type='text', placeholder='Kowalska-Nowak' name="teacherSurname" id="teacherSurname")
-              div.form-group
+                input.form-control(type='text', placeholder='Kowalska-Nowak' name="teacherSurname" id="teacherSurname" value=session?session.teacherSurname:"")
+                if(teacherSurnameNotValid)
+                  p.form-control-feedback=teacherSurnameNotValid.msg
+              div.form-group(class=teacherNameNotValid != null ? "has-danger":"")
                 label(for='teacherName') Imię prowadzącego:
-                input.form-control(type='text', placeholder='Anna' name="teacherName" id="teacherName")
-              br
-              div.form-group
-                label(for='courseCounselorSurname') Nazwisko opiekuna kursu:
-                input.form-control(type='text', placeholder='Romanowski' name="courseCounselorSurname" id="courseCounselorSurname" )
-              div.form-group
-                label(for='courseCounselorName') Imię opiekuna kursu:
-                input.form-control(type='text', placeholder='Jan' name="courseCounselorName" id="courseCounselorName")            
+                input.form-control(type='text', placeholder='Anna' name="teacherName" id="teacherName" value=session?session.teacherName:"")
+                if(teacherNameNotValid)
+                  p.form-control-feedback=teacherNameNotValid.msg                      
               input(type='submit' id='submit-form').invisible
           .col-md-4
             .teacherAllowance
               svg(width="150" height="150").svgCheckContainer1
                 path(id="check" d="M10,50 l25,40 l95,-70")
               p(id="teacherAllowanceInfo") Brak zgody prowadzącego! Możesz kontynuowć, jednak opcja wysłania wniosku będzie zablokowana
-            .teacherAllowance
-              svg(width="150" height="150").svgCheckContainer2
-                path(id="check1" d="M10,50 l25,40 l95,-70")
-              p(id="counselorAllowanceInfo") Brak zgody opiekuna kursu! Możesz kontynuowć, jednak opcja wysłania wniosku będzie zablokowana
+            
       .col.col-md-2
         label(for='submit-form').next-button
   
@@ -44,8 +38,14 @@ block content
       if (document.readyState === 'complete') {
             $("input").focusout(function(){
               findTeacher();
-              checkCourseCounselor();
-            })         
+              //checkCourseCounselor();
+            });
+            $("input").focus(function(){
+              var $x = $(document.activeElement);
+              $x.closest("div").removeClass("has-danger");
+              $x.closest("div").children(".form-control-feedback").css("display", "none");
+              
+            })             
           }          
           
       }
@@ -109,3 +109,4 @@ block content
           
         }
     }
+  
