@@ -9,6 +9,7 @@ block content
       .col-md-6
         br
         h1.display-5.m-b-2 Utwórz nowy wniosek 3/3
+        p Podane pola możesz wypełnić po utworzeniu wniosku, jednak do tego czasu opcja wysłania wniosku będzie zablokowana
         .my-jumbotron
           
             form(method='POST' action='/create_app_3')
@@ -28,18 +29,18 @@ block content
                   if(days)
                     each item in days
                       if(session && session.classesDay == item.nazwaDniaTyg)
-                        option(selected)=item.nazwaDniaTyg
+                        option(value=item.ID selected)=item.nazwaDniaTyg
                       else
-                        option=item.nazwaDniaTyg
+                        option(value=item.ID)=item.nazwaDniaTyg
               div.form-group(class = startOfClassesNotValid != null ? "has-danger":"")
                 label(for='startOfClasses') Godzina rozpoczęcia zajęć
                 input.form-control(type='text' placeholder='14.15' name="startOfClasses" id="startOfClasses" value=session?session.startOfClasses:"")
-                if(classroomNameNotValid)
+                if(startOfClassesNotValid)
                   p.form-control-feedback=startOfClassesNotValid.msg
               div.form-group(class = endOfClassesNotValid != null ? "has-danger":"")
                 label(for='endOfClasses') Godzina zakończenia zajęć
                 input.form-control(type='text' placeholder='16.45' name="endOfClasses" id="endOfClasses" value=session?session.endOfClasses:"")
-                if(classroomNameNotValid)
+                if(endOfClassesNotValid)
                   p.form-control-feedback=endOfClassesNotValid.msg
               div.form-group
                 label(for='classesWeek') Parzystość tygodnia
@@ -47,9 +48,9 @@ block content
                   if(week)
                     each item in week
                       if(session && session.classesWeek == item.nazwaParzystosciTyg)
-                        option(selected)=item.nazwaParzystosciTyg
+                        option(value=item.ID selected)=item.nazwaParzystosciTyg
                       else
-                        option=item.nazwaParzystosciTyg     
+                        option(value=item.ID)=item.nazwaParzystosciTyg     
               input(type='submit' id='submit-form').invisible
           
       .col.col-md-2.offset-md-1

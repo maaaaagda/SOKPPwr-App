@@ -9,16 +9,17 @@ block content
       .col-md-8
         br
         h1.display-5.m-b-2 Utwórz nowy wniosek 2/3
+        p Podane pola możesz wypełnić po utworzeniu wniosku, jednak do tego czasu opcja wysłania wniosku będzie zablokowana
         .row.my-jumbotron
           .col-md-8
             form(method='POST' action='/create_app_2')
               div.form-group(class=teacherSurnameNotValid!= null ? "has-danger":"")
-                label(for='teacherSurname') Nazwisko prowadzącego:
+                label(for='teacherSurname') Nazwisko prowadzącego
                 input.form-control(type='text', placeholder='Kowalska-Nowak' name="teacherSurname" id="teacherSurname" value=session?session.teacherSurname:"")
                 if(teacherSurnameNotValid)
                   p.form-control-feedback=teacherSurnameNotValid.msg
               div.form-group(class=teacherNameNotValid != null ? "has-danger":"")
-                label(for='teacherName') Imię prowadzącego:
+                label(for='teacherName') Imię prowadzącego
                 input.form-control(type='text', placeholder='Anna' name="teacherName" id="teacherName" value=session?session.teacherName:"")
                 if(teacherNameNotValid)
                   p.form-control-feedback=teacherNameNotValid.msg                      

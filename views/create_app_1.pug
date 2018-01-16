@@ -9,7 +9,7 @@ block content
         .my-jumbotron
           form(method='POST' action='/create_app_1')            
             div.form-group(class= courseCodeNotValid != null ? "has-danger":"")
-              label(for='courseCode') Kod przedmiotu:
+              label(for='courseCode') Kod przedmiotu *
               input#name.form-control.form-control-danger(type='text',  name='courseCode' required value=session?session.courseCode:"")
               if(courseCodeNotValid)
                 p.form-control-feedback=courseCodeNotValid.msg
@@ -18,7 +18,7 @@ block content
               -var j=(new Date()).getFullYear()-1;
               -var loops = 2;
               -var resultYear = j+'/'+ ++j;
-              label(for='courseYear') Rok akademicki:
+              label(for='courseYear') Rok akademicki *
               select#name.form-control(name='courseYear')
                 while loops>0
                   if(session && session.courseYear==resultYear)
@@ -28,7 +28,7 @@ block content
                   -loops--
                   -resultYear = j+'/'+ ++j;
             div.form-group
-              label(for='courseSemester') Semestr:
+              label(for='courseSemester') Semestr *
               select#name.form-control(name="courseSemester")
                 if(courseSemesters)
                   each item in courseSemesters

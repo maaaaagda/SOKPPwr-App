@@ -38,8 +38,8 @@ router.post('/', function(req, res, next) {
   sess = req.session;
   const buildingNameValid = "Nazwa budynku nie może zawierać znaków specjalnych!";
   const classroomNameValid = "Nazwa sali nie może zawierać znaków specjalnych!";
-  const startOfClassesMsg= "Błędny czas! Wpisz czas w formacie hh.mm ";
-  const endOfClassesMsg= "Błędny czas! Wpisz czas w formacie hh.mm ";
+  const startOfClassesMsg= "Błędny czas rozpoczęcia zajęć! Wpisz czas w formacie hh.mm ";
+  const endOfClassesMsg= "Błędny czas zakończenia zajęć! Wpisz czas w formacie hh.mm ";
 
   //sess.data = data;
   var data = sess.data;
@@ -55,8 +55,8 @@ router.post('/', function(req, res, next) {
 
   req.checkBody('building', buildingNameValid).matches(/^$|^[a-zA-Z\d\.\s]+$/);
   req.checkBody('classroom', classroomNameValid).matches(/^$|^[a-zA-Z\d\.\s]+$/);
-  req.checkBody('startOfClasses', startOfClassesMsg).matches(/^([01]?[0-9]|2[0-3]):[0-5][05]$/);
-  req.checkBody('endOfClasses', endOfClassesMsg).matches(/^([01]?[0-9]|2[0-3]):[0-5][05]$/);
+  req.checkBody('startOfClasses', startOfClassesMsg).matches(/^([01]?[0-9]|2[0-3]).[0-5][05]$/);
+  req.checkBody('endOfClasses', endOfClassesMsg).matches(/^([01]?[0-9]|2[0-3]).[0-5][05]$/);
   req.getValidationResult()
    .then(function(result){
      var errors = result.array();
@@ -72,7 +72,19 @@ router.post('/', function(req, res, next) {
      } else {
         sess.data = data;
         console.log(sess.data);
-        res.redirect('create_app_congrats');
+        var getConn = Promise.promisify(req.getConnection, {context: req});
+        getConn().then(function(connection) {
+                  var query = Promise.promisify(connection.query, {context: connection});
+                  return query("INSERT INTO termin (DzienTygodnia, ParzystoscTygodnia, GodzinaRozpoczecia, GodzinaZakonczenia) VALUES ('"+data.classesDay+"', '"+data.classesWeek+"', '"+data.endOfClasses+"', '"+data.startOfClasses+"')");
+                }, function(err) {
+                  console.log("Error in performing mysql query : %s " + err);
+                  res.statusCode = 404; // upsssssss sth went wrong
+                }).then(function(rows) {
+                  console.log("moj wynik!");
+                  console.log(rows.insertId);
+                  sess.data.timeID = rows.insertId;
+                  res.render('create_app_3');
+                });
      }
    })
  });
