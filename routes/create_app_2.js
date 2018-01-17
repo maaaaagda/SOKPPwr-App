@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 var sess;
 var Promise = require('bluebird');
-var userID = 1; //when no errors change it to sess.userID
+var userID;
 
 function renderFormData(req, res, renderData) {
   sess = req.session;
+  userID = sess.userID;
   var getConn = Promise.promisify(req.getConnection, {context: req});
   getConn().then(function(connection) {
             var query = Promise.promisify(connection.query, {context: connection});
@@ -27,6 +28,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var input = JSON.parse(JSON.stringify(req.body));
   sess = req.session;
+  userID = sess.userID;
   var data = sess.data;
   const teacherNameValid = "Imię nauczyciela nie może zawierać znaków specjalnych!";
   const teacherSurnameValid = "Nazwisko nauczyciela nie może zawierać znaków specjalnych!";

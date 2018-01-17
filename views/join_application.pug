@@ -3,11 +3,13 @@ extends layout
 block content
   br
   h1= titl
-  
+  -var maxNumberOfStudents = 18;
   .my-jumbotron
-    table.table.table-bordered.table-hover.join-table
+    input(type="text" id="inputSearch" onkeyup="myFunction()" placeholder="Szukaj po nazwie kursu..." title="Type in a name")
+    table(id="allApplicationsTable").table.table-bordered.table-hover.join-table
       thead
         tr
+          th Id
           th Kod Przedmiotu
           th Nazwa Kursu
           th Rodzaj Kursu
@@ -19,6 +21,7 @@ block content
           if (rows)
            each item in rows
             tr
+              td= item.ID
               td= item.KodPrzedmiotu
               td= item.NazwaKursu
               td= item.nazwaRodzajuKursu
@@ -26,4 +29,31 @@ block content
               td= item.nazwaSemestru
               td.text-center= item.numberOfStudents
               td
-                button.btn.btn-outline-primary(onClick="joinApplicationId("+item.ID+");")  Dopisz mnie
+                if(item.numberOfStudents>=maxNumberOfStudents)
+                  button.btn.btn-outline-primary(disabled)  Dopisz mnie
+                else 
+                  button.btn.btn-outline-primary(onClick="joinApplicationId("+item.ID+");")  Dopisz mnie
+      
+      
+    script.
+      function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("inputSearch");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("allApplicationsTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[2];
+          if (td) {
+            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }       
+        }
+      }
+                  
+                
+                
+                

@@ -84,7 +84,7 @@ router.post('/', function(req, res, next) {
                   var getConn = Promise.promisify(req.getConnection, {context: req});
                   getConn().then(function(connection) {
                             var query = Promise.promisify(connection.query, {context: connection});
-                            var teacherID = sess.data.teacherID='' ?'NULL':sess.data.teacherID;
+                            var teacherID = (sess.data.teacherID=='')?'NULL':sess.data.teacherID;
                             return query("INSERT INTO wniosek (Sala, Semestr, Rocznik, Status, DataUtworzenia, KursID, Budynek, ProwadzacyID, TerminID) VALUES ('"+sess.data.classroom+"', '"+sess.data.courseSemester+"', '"+sess.data.courseYear+"', 0, CURRENT_DATE(), (SELECT ID FROM kurs WHERE KodPrzedmiotu='"+sess.data.courseCode+"'), '"+sess.data.building+"', "+teacherID+", '"+sess.data.timeID+"')");
                           }, function(err) {
                             console.log("Error in performing mysql query : %s " + err);
