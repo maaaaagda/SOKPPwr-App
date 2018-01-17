@@ -24,6 +24,6 @@ block content
               td= item.nazwaRodzajuKursu
               td= item.Rocznik
               td= item.nazwaSemestru
-              td.text-center= 35
+              td.text-center= item.numberOfStudents
               td
                 button.btn.btn-outline-primary(onClick="joinApplicationId("+item.ID+");")  Dopisz mnie

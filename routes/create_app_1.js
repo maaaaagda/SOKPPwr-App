@@ -42,9 +42,10 @@ router.post('/', function(req, res, next) {
   var getConn = Promise.promisify(req.getConnection, {context: req});
   getConn().then(function(connection) {
     var query = Promise.promisify(connection.query, {context: connection});
-    return query("SELECT COUNT(*) codeExists FROM kurs WHERE kurs.KodPrzedmiotu='"+data.courseCode+"' LIMIT 1");
+    return query("SELECT COUNT(*) codeExists, NazwaKursu courseName FROM kurs WHERE kurs.KodPrzedmiotu='"+data.courseCode+"' LIMIT 1");
   }).then(function(rows) {
     codeExists = rows[0].codeExists;
+    sess.data.courseName = rows[0].courseName;
     req.checkBody('courseCode', codeExistsNot ).custom(() => codeExists == 1);
     req.getValidationResult()
      .then(function(result){

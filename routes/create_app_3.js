@@ -55,8 +55,8 @@ router.post('/', function(req, res, next) {
 
   req.checkBody('building', buildingNameValid).matches(/^$|^[a-zA-Z\d\.\s]+$/);
   req.checkBody('classroom', classroomNameValid).matches(/^$|^[a-zA-Z\d\.\s]+$/);
-  req.checkBody('startOfClasses', startOfClassesMsg).matches(/^([01]?[0-9]|2[0-3]).[0-5][05]$/);
-  req.checkBody('endOfClasses', endOfClassesMsg).matches(/^([01]?[0-9]|2[0-3]).[0-5][05]$/);
+  req.checkBody('startOfClasses', startOfClassesMsg).matches(/^$|^([01]?[0-9]|2[0-3]).[0-5][05]$/);
+  req.checkBody('endOfClasses', endOfClassesMsg).matches(/^$|^([01]?[0-9]|2[0-3]).[0-5][05]$/);
   req.getValidationResult()
    .then(function(result){
      var errors = result.array();
@@ -80,10 +80,18 @@ router.post('/', function(req, res, next) {
                   console.log("Error in performing mysql query : %s " + err);
                   res.statusCode = 404; // upsssssss sth went wrong
                 }).then(function(rows) {
-                  console.log("moj wynik!");
-                  console.log(rows.insertId);
                   sess.data.timeID = rows.insertId;
-                  res.render('create_app_3');
+                  var getConn = Promise.promisify(req.getConnection, {context: req});
+                  getConn().then(function(connection) {
+                            var query = Promise.promisify(connection.query, {context: connection});
+                            var teacherID = sess.data.teacherID='' ?'NULL':sess.data.teacherID;
+                            return query("INSERT INTO wniosek (Sala, Semestr, Rocznik, Status, DataUtworzenia, KursID, Budynek, ProwadzacyID, TerminID) VALUES ('"+sess.data.classroom+"', '"+sess.data.courseSemester+"', '"+sess.data.courseYear+"', 0, CURRENT_DATE(), (SELECT ID FROM kurs WHERE KodPrzedmiotu='"+sess.data.courseCode+"'), '"+sess.data.building+"', "+teacherID+", '"+sess.data.timeID+"')");
+                          }, function(err) {
+                            console.log("Error in performing mysql query : %s " + err);
+                            res.statusCode = 404; // upsssssss sth went wrong
+                          }).then(function(rows) {
+                            res.render('create_app_congrats', {congratsData: sess.data});
+                          });
                 });
      }
    })
