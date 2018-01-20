@@ -2,14 +2,14 @@ extends layout
 
 block content
   br
-  
+
   .jumbotron
     .d-flex.justify-content-center
       h1 Gratulacje!
     br
-    p Zostałeś dopisany do listy studentów chetnych na uczestnictwo w kursie poprawkowym 
+    p Zostałeś dopisany do listy studentów chetnych na uczestnictwo w kursie poprawkowym
       b #{data[0].NazwaKursu} #{data[0].nazwaRodzajuKursu} (kod przedmiotu #{data[0].KodPrzedmiotu}, rok akademicki #{data[0].Rocznik} semestr #{data[0].nazwaSemestru} )
-    p Informacja o wpisie pojawiła się w zakładce 
+    p Informacja o wpisie pojawiła się w zakładce
       b Moje sprawy
     .d-flex.justify-content-center
-      button.btn.btn-lg.btn-outline-primary(onClick="goToHomePage();") Wróc do strony głównej
+      button.btn.btn-lg.btn-outline-primary(id='goToHomePageFromJoin' onClick="goToHomePage();") Wróc do strony głównej

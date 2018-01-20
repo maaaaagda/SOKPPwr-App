@@ -31,10 +31,10 @@ block content
               td
                 if(item.numberOfStudents>=maxNumberOfStudents)
                   button.btn.btn-outline-primary(disabled)  Dopisz mnie
-                else 
-                  button.btn.btn-outline-primary(onClick="joinApplicationId("+item.ID+");")  Dopisz mnie
-      
-      
+                else
+                  button.btn.btn-outline-primary(id='button'+item.ID onClick="joinApplicationId("+item.ID+");")  Dopisz mnie
+
+
     script.
       function myFunction() {
         var input, filter, table, tr, td, i;
@@ -50,10 +50,6 @@ block content
             } else {
               tr[i].style.display = "none";
             }
-          }       
+          }
         }
       }
-                  
-                
-                
-                
