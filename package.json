@@ -29,6 +29,7 @@
     "serve-favicon": "~2.4.5"
   },
   "devDependencies": {
+    "jsdoc": "^3.5.5",
     "supertest": "^3.0.0"
   }
 }
