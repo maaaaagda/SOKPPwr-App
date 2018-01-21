@@ -1,7 +1,31 @@
+/**
+ * express module
+ * @var
+ */
 var express = require('express');
+/**
+ * Express router to mount user related functions on.
+ * @namespace joinApplicationRouter
+ */
 var router = express.Router();
+/**
+ * session variable
+ * @var
+ */
 var sess;
+/**
+ * userId variable
+ * @var
+ */
 var userID;
+
+/**
+ * Render View joinApplication
+ * @name JoinAplication
+ * @route {GET} /join_application
+ * @headerparam userId unique identyficator of user
+ * @headerparam  getConnection connection to model
+ */
 router.get('/', function(req, res, next) {
   sess = req.session;
   userID = sess.userID;
@@ -20,6 +44,14 @@ router.get('/', function(req, res, next) {
     });
 });
 
+/**
+ * Render View joinApplication
+ * @name JoinAplicationId
+ * @route {GET} /join_application/:id
+ * @routeParam {id} id of application student want to join
+ * @headerparam {Integer} userId unique identyficator of user
+ * @headerparam {Connection} getConnection connection to model
+ */
 router.get('/:id', function(req, res, next) {
   sess = req.session;
   userID = sess.userID;
