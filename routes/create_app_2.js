@@ -30,16 +30,16 @@ router.post('/', function(req, res, next) {
   sess = req.session;
   userID = sess.userID;
   var data = sess.data;
-  const teacherNameValid = "Imię nauczyciela nie może zawierać znaków specjalnych!";
-  const teacherSurnameValid = "Nazwisko nauczyciela nie może zawierać znaków specjalnych!";
+  const teacherNameValid = "Imię nauczyciela nie może zawierać znaków specjalnych i musi zaczynać się z dużej litery!";
+  const teacherSurnameValid = "Nazwisko nauczyciela nie może zawierać znaków specjalnych, musi zaczynać się z dużej litery, a w przypadku nazwisk złożonych być rozdzielone myślnikiem!";
 
   data.teacherName = input.teacherName;
   data.teacherSurname = input.teacherSurname;
 
   req.body = data;
 
-  req.checkBody('teacherName', teacherNameValid).matches(/^$|^[a-zA-Z\d\-\s]+$/);
-  req.checkBody('teacherSurname', teacherSurnameValid).matches(/^$|^[a-zA-Z\d\-\s]+$/);
+  req.checkBody('teacherName', teacherNameValid).matches(/^$|(^[A-Z][a-zA-Z]+$)/);
+  req.checkBody('teacherSurname', teacherSurnameValid).matches(/^$|(^[A-Z][a-zA-Z]+$)|(^[A-Z][a-zA-Z]+[\-][A-Z][a-zA-Z]+$)/);
   req.getValidationResult()
    .then(function(result){
      var errors = result.array();
