@@ -55,8 +55,8 @@ router.post('/', function(req, res, next) {
 
   req.checkBody('building', buildingNameValid).matches(/^$|^[a-zA-Z\d\.\s]+$/);
   req.checkBody('classroom', classroomNameValid).matches(/^$|^[a-zA-Z\d\.\s]+$/);
-  req.checkBody('startOfClasses', startOfClassesMsg).matches(/^$|^([01]?[0-9]|2[0-3]).[0-5][05]$/);
-  req.checkBody('endOfClasses', endOfClassesMsg).matches(/^$|^([01]?[0-9]|2[0-3]).[0-5][05]$/);
+  req.checkBody('startOfClasses', startOfClassesMsg).matches(/^$|^([01]?[0-9]|2[0-3])[.][0-5][05]$/);
+  req.checkBody('endOfClasses', endOfClassesMsg).matches(/^$|^([01]?[0-9]|2[0-3])[.][0-5][05]$/);
   req.getValidationResult()
    .then(function(result){
      var errors = result.array();

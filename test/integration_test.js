@@ -4,7 +4,7 @@ var request = require('supertest')
 
 //integration tests - working good
 
-/*describe('Homepage', function (){
+describe('Homepage', function (){
   it('Welcome the user', function (done) {
     request(app).get('/')
       .expect(200, done)
@@ -24,4 +24,3 @@ describe('Post second page of form Create Application', function (){
       .expect(200, done)
   })
 })
-*/

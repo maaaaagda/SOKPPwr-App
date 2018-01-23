@@ -25,7 +25,7 @@ var sess;
  */
 router.get('/', function(req, res, next) {
     sess = req.session;
-    sess.userID = 1;
+    sess.userID = 2;
     res.render('index', {titl: 'Hello::***:'});
 });
 
