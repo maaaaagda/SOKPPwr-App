@@ -12,11 +12,7 @@ img {
   display: inline-block;
 }
 
-/* index */
-
-.sign {
-  margin: 10px;
-}
+/** index */
 
 .cursive {
   font-style: italic;
@@ -38,6 +34,7 @@ img {
 .div-flex {
   display: flex;
   justify-content: center;
+	flex-wrap: wrap;
 }
 
 .home-page-img {
@@ -55,14 +52,22 @@ img {
   border-radius: 15px;
 }
 
-/* join_application */
+.nav-align {
+	vertical-align: middle;
+	text-align: center;
+}
+
+.navbar-toggler-icon{
+  padding: 25px !important;
+}
+/** join_application */
 
 .join-table {
   background-color: white;
   text-align: center;
 }
 
-@media (min-width: 576px){
+@media (min-width: 576px) {
   .my-jumbotron {
     padding: 4rem 2rem;
   }
@@ -88,7 +93,7 @@ img {
   margin-bottom: 12px;
 }
 
-/* create_new_application */
+/** create_new_application */
 .next-button {
   width: 100px;
   height:100px;
@@ -117,7 +122,7 @@ img {
     align-items: center;
 }
 
-/* create_new_application 2 */
+/** create_new_application 2 */
 #check, #check1 {
   fill: none;
   stroke: green;
